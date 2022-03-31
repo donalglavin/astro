@@ -20,45 +20,15 @@
 AstroVim is an aesthetic and feature-rich neovim config that is extensible and easy to use with a great set of plugins
 </p>
 
-**BREAKING RELEASE NOTICE:** If you were using AstroVim before the official
-release, please see the updated user configuration in the [`lua/user_example`
-folder](https://github.com/kabinspace/AstroVim/tree/main/lua/user_example)
-as well as the updated configuration details below and in the `user_example`
-README. The official release came with a lot of restructuring changes to make
-things easier and more "future-proof".
-
-## 🌟 Preview
-
-![Preview1](./screenshots/preview1.png)
-![Preview2](./screenshots/preview2.png)
-![Preview33](./screenshots/preview3.png)
-
 ## ⚡ Requirements
 
 - [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
 - [Neovim 0.6+](https://github.com/neovim/neovim/releases/tag/v0.6.1)
 - Terminal with true color support (for the default theme, otherwise it is dependent on the theme you are using)
 
-> Note when using default theme: For MacOS, the default terminal does not have true color support. You wil need to use [iTerm2](https://iterm2.com/) or another [terminal emulator](https://gist.github.com/XVilka/8346728#terminal-emulators) that has true color support.
-
-## 🛠️ Installation
-
-### Linux
-
-#### Make a backup of your current nvim folder
-
-```
-mv ~/.config/nvim ~/.config/nvimbackup
-```
-
-#### Clone the repository
-
-```
-git clone https://github.com/kabinspace/AstroVim ~/.config/nvim
-nvim +PackerSync
-```
-
 ## 📦 Setup
+
+This has been modified from the original AstroVim configuration setup to meet my personal requirements.
 
 #### Install LSP
 
@@ -110,13 +80,11 @@ running the `cp` command above this file can be found in
 ## Extending AstroVim
 
 AstroVim should allow you to extend its functionality without going outside of the `user` directory!
-
 Please get in contact when you run into some setup issue where that is not the case.
 
 ### Add more Plugins
 
 Just copy the `packer` configuration without the `use` and with a `,` after the last closing `}` into the `plugins.init` entry of your `user/init.lua` file.
-
 See the example in the [user_example](https://github.com/kabinspace/AstroVim/blob/main/lua/user_example) directory.
 
 ### Change Default Plugin Configurations

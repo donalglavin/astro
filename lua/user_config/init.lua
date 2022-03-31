@@ -1,5 +1,10 @@
 local config = {
 
+  -- Personal Options.
+  ---- Shell
+--   vim.opt.shell = "pwsh.exe",
+  -- vim.opt.termguicolours = true,
+
   -- Set colorscheme
   colorscheme = "default_theme",
 

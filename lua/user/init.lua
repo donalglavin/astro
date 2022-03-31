@@ -1,9 +1,12 @@
+vim.opt.shell = vim.fn.has("win32") == 1 and "pwsh.exe" or vim.o.shell
+vim.cmd([[
+		let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+		set shellquote= shellxquote=
+    ]])
+-- -NoProfile   ; 'powershell' :
 local config = {
-
-  -- Personal Options.
-  ---- Shell
---   vim.opt.shell = "pwsh.exe",
-  -- vim.opt.termguicolours = true,
 
   -- Set colorscheme
   colorscheme = "default_theme",
@@ -62,6 +65,9 @@ local config = {
     packer = {
       compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
     },
+--     toggleterm = {
+--      shell = vim.fn.has "win32" == 1 and "pwsh.exe -NoLogo #" or vim.o.shell
+--     }
   },
 
   -- Add paths for including more VS Code style snippets in luasnip

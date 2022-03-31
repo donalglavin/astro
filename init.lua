@@ -8,6 +8,7 @@ local utils = require "core.utils"
 utils.disabled_builtins()
 
 utils.bootstrap()
+-- vim.opt.shell = "pwsh" 
 
 local sources = {
   "core.options",

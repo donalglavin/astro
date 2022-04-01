@@ -5,7 +5,7 @@ vim.cmd([[
 		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 		set shellquote= shellxquote=
     ]])
--- -NoProfile   ; 'powershell' :
+
 local config = {
 
   -- Set colorscheme
@@ -49,18 +49,33 @@ local config = {
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
-      -- { "andweeb/presence.nvim" },
-      -- {
-      --   "ray-x/lsp_signature.nvim",
-      --   event = "BufRead",
-      --   config = function()
-      --     require("lsp_signature").setup()
-      --   end,
-      -- },
-    },
-    -- All other entries override the setup() call for default plugins
-    treesitter = {
-      ensure_installed = { "lua" },
+      { "andweeb/presence.nvim" },
+      {
+        "ray-x/lsp_signature.nvim",
+        event = "BufRead",
+        config = function()
+          require("lsp_signature").setup()
+        end,
+      },
+      { "nvim-orgmode/orgmode",
+      ft = "org",
+      highlight = {
+        enable = true,
+        disable = {"org"},
+        additional_vim_regexp_highlighting = {"org"}
+      },
+      config = function()
+        --         require("orgmode").setup_ts_grammar()
+        require("orgmode").setup({
+          org_agenda_files = {"~/OneDrive - Evolution Mining Limited/Wiki/pages/**/*"},
+          org_default_notes = "~/OneDrive - Evolution Mining Limited/Wiki/pages/refile.org",
+        })
+      end,
+    }
+   },
+   -- All other entries override the setup() call for default plugins
+   treesitter = {
+     ensure_installed = { "lua" },
     },
     packer = {
       compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",

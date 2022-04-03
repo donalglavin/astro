@@ -61,7 +61,24 @@ local config = {
   },
   -- All other entries override the setup() call for default plugins
   treesitter = {
-     ensure_installed = { "maintained" },
+    ensure_installed = {
+      "lua",
+      "json",
+      "yaml",
+      "sql",
+      "css",
+      "fennel",
+      "html",
+      "javascript",
+      "ledger",
+      "julia",
+      "r",
+      "python",
+      "typescript",
+      "regex",
+      "jsdoc",
+      "go"
+    },
     },
     packer = {
       compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",

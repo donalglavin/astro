@@ -69,6 +69,7 @@ local config = {
       "fennel",
       "html",
       "javascript",
+      "markdown",
       "ledger",
       "julia",
       "r",

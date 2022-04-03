@@ -65,7 +65,6 @@ local config = {
       "lua",
       "json",
       "yaml",
-      "sql",
       "css",
       "fennel",
       "html",

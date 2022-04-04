@@ -49,14 +49,22 @@ local config = {
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
+      
+      -- VimWiki
+      { "vimwiki/wimviki" },
+      { "dhruvasagar/vim-table-mode" },
+      { "chipsenkbeil/vimwiki-server" },
+      { "ElPiloto/telescope-vimwiki.nvim"},
+      
       { "andweeb/presence.nvim" },
+      
       {
         "ray-x/lsp_signature.nvim",
         event = "BufRead",
         config = function()
           require("lsp_signature").setup()
         end,
-      },
+      }
 
   },
   -- All other entries override the setup() call for default plugins

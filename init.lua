@@ -1,10 +1,10 @@
 vim.opt.shell = vim.fn.has("win32") == 1 and "pwsh.exe" or vim.o.shell
 vim.cmd([[
-		let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-		set shellquote= shellxquote=
-    ]])
+let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+set shellquote= shellxquote=
+]])
 
 local config = {
 
@@ -49,15 +49,14 @@ local config = {
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
-      
+
       -- VimWiki
-      { "vimwiki/wimviki" },
+      { "vimwiki/vimwiki" },
       { "dhruvasagar/vim-table-mode" },
-      { "chipsenkbeil/vimwiki-server" },
-      { "ElPiloto/telescope-vimwiki.nvim"},
-      
+      { "ElPiloto/telescope-vimwiki.nvim" },
+
       { "andweeb/presence.nvim" },
-      
+
       {
         "ray-x/lsp_signature.nvim",
         event = "BufRead",
@@ -66,27 +65,27 @@ local config = {
         end,
       }
 
-  },
-  -- All other entries override the setup() call for default plugins
-  treesitter = {
-    ensure_installed = {
-      "lua",
-      "json",
-      "yaml",
-      "css",
-      "fennel",
-      "html",
-      "javascript",
-      "markdown",
-      "ledger",
-      "julia",
-      "r",
-      "python",
-      "typescript",
-      "regex",
-      "jsdoc",
-      "go"
     },
+    -- All other entries override the setup() call for default plugins
+    treesitter = {
+      ensure_installed = {
+        "lua",
+        "json",
+        "yaml",
+        "css",
+        "fennel",
+        "html",
+        "javascript",
+        "markdown",
+        "ledger",
+        "julia",
+        "r",
+        "python",
+        "typescript",
+        "regex",
+        "jsdoc",
+        "go"
+      },
     },
     packer = {
       compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
@@ -110,90 +109,90 @@ local config = {
   lsp = {
     -- add to the server on_attach function
     -- on_attach = function(client, bufnr)
-    -- end,
+      -- end,
 
-    -- override the lsp installer server-registration function
-    -- server_registration = function(server, opts)
-    --   server:setup(opts)
-    -- end
+      -- override the lsp installer server-registration function
+      -- server_registration = function(server, opts)
+        --   server:setup(opts)
+        -- end
 
-    -- Add overrides for LSP server settings, the keys are the name of the server
-    ["server-settings"] = {
-      -- example for addings schemas to yamlls
-      -- yamlls = {
-      --   settings = {
-      --     yaml = {
-      --       schemas = {
-      --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
-      --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-      --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-      --       },
-      --     },
-      --   },
-      -- },
-    },
-  },
+        -- Add overrides for LSP server settings, the keys are the name of the server
+        ["server-settings"] = {
+          -- example for addings schemas to yamlls
+          -- yamlls = {
+            --   settings = {
+              --     yaml = {
+                --       schemas = {
+                  --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
+                  --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+                  --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
+                  --       },
+                  --     },
+                  --   },
+                  -- },
+                },
+              },
 
-  -- Diagnostics configuration (for vim.diagnostics.config({}))
-  diagnostics = {
-    virtual_text = true,
-    underline = true,
-  },
+              -- Diagnostics configuration (for vim.diagnostics.config({}))
+              diagnostics = {
+                virtual_text = true,
+                underline = true,
+              },
 
-  -- null-ls configuration
-  ["null-ls"] = function()
-    -- Formatting and linting
-    -- https://github.com/jose-elias-alvarez/null-ls.nvim
-    local status_ok, null_ls = pcall(require, "null-ls")
-    if not status_ok then
-      return
-    end
+              -- null-ls configuration
+              ["null-ls"] = function()
+                -- Formatting and linting
+                -- https://github.com/jose-elias-alvarez/null-ls.nvim
+                local status_ok, null_ls = pcall(require, "null-ls")
+                if not status_ok then
+                  return
+                end
 
-    -- Check supported formatters
-    -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-    local formatting = null_ls.builtins.formatting
+                -- Check supported formatters
+                -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+                local formatting = null_ls.builtins.formatting
 
-    -- Check supported linters
-    -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-    local diagnostics = null_ls.builtins.diagnostics
+                -- Check supported linters
+                -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
+                local diagnostics = null_ls.builtins.diagnostics
 
-    null_ls.setup {
-      debug = false,
-      sources = {
-        -- Set a formatter
-        formatting.rufo,
-        -- Set a linter
-        diagnostics.rubocop,
-      },
-      -- NOTE: You can remove this on attach function to disable format on save
-      on_attach = function(client)
-        if client.resolved_capabilities.document_formatting then
-          vim.cmd "autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()"
-        end
-      end,
-    }
-  end,
+                null_ls.setup {
+                  debug = false,
+                  sources = {
+                    -- Set a formatter
+                    formatting.rufo,
+                    -- Set a linter
+                    diagnostics.rubocop,
+                  },
+                  -- NOTE: You can remove this on attach function to disable format on save
+                  on_attach = function(client)
+                    if client.resolved_capabilities.document_formatting then
+                      vim.cmd "autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()"
+                    end
+                  end,
+                }
+              end,
 
-  -- This function is run last
-  -- good place to configure mappings and vim options
-  polish = function()
-    local opts = { noremap = true, silent = true }
-    local map = vim.api.nvim_set_keymap
-    local set = vim.opt
-    -- Set options
-    set.relativenumber = true
+              -- This function is run last
+              -- good place to configure mappings and vim options
+              polish = function()
+                local opts = { noremap = true, silent = true }
+                local map = vim.api.nvim_set_keymap
+                local set = vim.opt
+                -- Set options
+                set.relativenumber = true
 
-    -- Set key bindings
-    map("n", "<C-s>", ":w!<CR>", opts)
+                -- Set key bindings
+                map("n", "<C-s>", ":w!<CR>", opts)
 
-    -- Set autocommands
-    vim.cmd [[
-      augroup packer_conf
-        autocmd!
-        autocmd bufwritepost plugins.lua source <afile> | PackerSync
-      augroup end
-    ]]
-  end,
-}
+                -- Set autocommands
+                vim.cmd [[
+                augroup packer_conf
+                autocmd!
+                autocmd bufwritepost plugins.lua source <afile> | PackerSync
+                augroup end
+                ]]
+              end,
+            }
 
-return config
+            return config

@@ -13,6 +13,8 @@ filetype plugin on
 syntax on
 ]])
 
+vim.g.maplocalleader = "\\"
+
 local config = {
 
 	-- Set colorscheme
@@ -63,15 +65,25 @@ local config = {
 				config = function()
 					vim.g.vimwiki_list = {
 						{
-							path = "~/.config/wiki",
+							path = "~/.projects/wiki",
 							syntax = "markdown",
 							ext = ".md",
 						},
 					}
+
+					vim.cmd([[
+					augroup MyColors
+					autocmd!
+					autocmd ColorScheme * highlight VimwikiList guibg=NONE
+					augroup end
+					]])
+
 					vim.api.nvim_set_keymap("n", "<space>ww", ":VimwikiIndex<CR>", { noremap = true })
 				end,
 			},
 			{ "dhruvasagar/vim-table-mode" },
+
+			{ "jalvesaq/Nvim-R", vim.cmd([[let R_set_home_env = 0]]) },
 
 			{ "ElPiloto/telescope-vimwiki.nvim" },
 

@@ -1,4 +1,9 @@
 vim.opt.shell = vim.fn.has("win32") == 1 and "pwsh.exe" or vim.o.shell
+
+vim.cmd([[ 
+let maplocalleader = "\\"
+]])
+
 vim.cmd([[
 let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
 let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
@@ -12,8 +17,6 @@ set nocompatible
 filetype plugin on
 syntax on
 ]])
-
-vim.g.maplocalleader = "\\"
 
 local config = {
 
@@ -78,12 +81,22 @@ local config = {
 					augroup end
 					]])
 
-					vim.api.nvim_set_keymap("n", "<space>ww", ":VimwikiIndex<CR>", { noremap = true })
+					vim.api.nvim_set_keymap("n", "<leader>ww", ":VimwikiIndex<CR>", { noremap = true })
 				end,
 			},
+
 			{ "dhruvasagar/vim-table-mode" },
 
-			{ "jalvesaq/Nvim-R", vim.cmd([[let R_set_home_env = 0]]) },
+			{
+				"jalvesaq/Nvim-R",
+				vim.cmd([[
+				let R_path = "$HOME\\scoop\\apps\\r-release\\current\\bin;$HOME\\scoop\\apps\\rtools\\current"
+				let R_syntax_fun_pattern = 1
+				let R_set_home_env = 0
+				let R_assign = 0
+				let R_external_term = 0
+				]]),
+			},
 
 			{ "ElPiloto/telescope-vimwiki.nvim" },
 
@@ -92,7 +105,7 @@ local config = {
 				"nvim-telescope/telescope-file-browser.nvim",
 				config = function()
 					require("telescope").load_extension("file_browser")
-					vim.api.nvim_set_keymap("n", "<space><space>", ":Telescope file_browser<CR>", { noremap = true })
+					vim.api.nvim_set_keymap("n", "<leader><leader>", ":Telescope file_browser<CR>", { noremap = true })
 				end,
 			},
 			{

@@ -1,8 +1,5 @@
 vim.opt.shell = vim.fn.has("win32") == 1 and "pwsh.exe" or vim.o.shell
-
-vim.cmd([[ 
-let maplocalleader = "\\"
-]])
+vim.g.maplocalleader = "\\" -- Pull request accepted to have this available to the user only.
 
 vim.cmd([[
 let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'

@@ -57,6 +57,7 @@ local config = {
     init = {
       -- You can disable default plugins as follows:
       -- ["goolord/alpha-nvim"] = { disable = true },
+      ["declancm/cinnamon.nvim"] = { disable = true },
       -- You can also add new plugins here as well:
 			{ "vimwiki/vimwiki" },
 			{ "dhruvasagar/vim-table-mode" },
@@ -71,6 +72,31 @@ local config = {
         end,
       },
     },
+    -- All other entries override the setup() call for default plugins
+    ["null-ls"] = function(config)
+      local null_ls = require "null-ls"
+      -- Check supported formatters and linters
+      -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+      -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
+      config.sources = {
+        -- Set a formatter
+        null_ls.builtins.formatting.rufo,
+        -- Set a linter
+        null_ls.builtins.diagnostics.rubocop,
+      }
+      -- set up null-ls's on_attach function
+      config.on_attach = function(client)
+        -- NOTE: You can remove this on attach function to disable format on save
+        if client.resolved_capabilities.document_formatting then
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            desc = "Auto format before save",
+            pattern = "<buffer>",
+            callback = vim.lsp.buf.formatting_sync,
+          })
+        end
+      end
+      return config -- return final config table
+    end,
     -- All other entries override the setup() call for default plugins
     treesitter = {
       ensure_installed = {
@@ -89,8 +115,7 @@ local config = {
 				"regex",
 				"jsdoc",
 				"go"
-    },
-    },
+    },},
     ["nvim-lsp-installer"] = {
       ensure_installed = {
         "sumneko_lua",
@@ -179,44 +204,6 @@ local config = {
     virtual_text = true,
     underline = true,
   },
-
-  -- null-ls configuration
-  ["null-ls"] = function()
-    -- Formatting and linting
-    -- https://github.com/jose-elias-alvarez/null-ls.nvim
-    local status_ok, null_ls = pcall(require, "null-ls")
-    if not status_ok then
-      return
-    end
-
-    -- Check supported formatters
-    -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-    local formatting = null_ls.builtins.formatting
-
-    -- Check supported linters
-    -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-    local diagnostics = null_ls.builtins.diagnostics
-
-    null_ls.setup {
-      debug = false,
-      sources = {
-        -- Set a formatter
-        formatting.rufo,
-        -- Set a linter
-        diagnostics.rubocop,
-      },
-      -- NOTE: You can remove this on attach function to disable format on save
-      on_attach = function(client)
-        if client.resolved_capabilities.document_formatting then
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            desc = "Auto format before save",
-            pattern = "<buffer>",
-            callback = vim.lsp.buf.formatting_sync,
-          })
-        end
-      end,
-    }
-  end,
 
   -- This function is run last
   -- good place to configure mappings and vim options

@@ -1,8 +1,39 @@
 local config = {
 
+  -- Configure AstroNvim updates
+  updater = {
+    remote = "origin", -- remote to use
+    channel = "nightly", -- "stable" or "nightly"
+    version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
+    branch = "main", -- branch name (NIGHTLY ONLY)
+    commit = nil, -- commit hash (NIGHTLY ONLY)
+    pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
+    skip_prompts = false, -- skip prompts about breaking changes
+    show_changelog = true, -- show the changelog after performing an update
+    -- remotes = { -- easily add new remotes to track
+    --   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
+    --   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
+    --   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
+    -- },
+  },
+
   -- Set colorscheme
   colorscheme = "default_theme",
 
+  -- Override highlight groups in any theme
+  highlights = {
+    -- duskfox = { -- a table of overrides
+    --   Normal = { bg = "#000000" },
+    -- },
+    default_theme = function(highlights) -- or a function that returns one
+      local C = require "default_theme.colors"
+
+      highlights.Normal = { fg = C.fg, bg = C.bg }
+      highlights.VimwikiList = { fg = C.fg, bg = NONE}
+      return highlights
+    end,
+  },
+  
   -- set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
     opt = {
@@ -28,21 +59,32 @@ local config = {
   },
 },
 
-  -- Default theme configuration
-  default_theme = {
-    diagnostics_style = { italic = true },
-    -- Modify the color table
-    colors = {
-      fg = "#abb2bf",
-    },
-    -- Modify the highlight groups
-    highlights = function(highlights)
-      local C = require "default_theme.colors"
-
-      highlights.Normal = { fg = C.fg, bg = C.bg }
-      highlights.VimwikiList = { fg = C.fg, bg = NONE}
-      return highlights
-    end,
+-- Default theme configuration
+default_theme = {
+  diagnostics_style = { italic = true },
+  -- Modify the color table
+  colors = {
+    fg = "#abb2bf",
+  },
+  plugins = { -- enable or disable extra plugin highlighting
+  aerial = true,
+  beacon = false,
+  bufferline = true,
+  dashboard = true,
+  highlighturl = true,
+  hop = false,
+  indent_blankline = true,
+  lightspeed = false,
+  ["neo-tree"] = true,
+  notify = true,
+  ["nvim-tree"] = false,
+  ["nvim-web-devicons"] = true,
+  rainbow = true,
+  symbols_outline = false,
+  telescope = true,
+  vimwiki = false,
+  ["which-key"] = true,
+},
   },
 
   -- Disable AstroNvim ui features

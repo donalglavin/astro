@@ -33,7 +33,7 @@ local config = {
       return highlights
     end,
   },
-  
+
   -- set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
     opt = {
@@ -104,7 +104,7 @@ default_theme = {
 			{ "vimwiki/vimwiki" },
 			{ "dhruvasagar/vim-table-mode" },
       { "andweeb/presence.nvim" },
-			{ "jalvesaq/Nvim-R" },
+			{ "LnL7/vim-nix" },
 			{ "ElPiloto/telescope-vimwiki.nvim" },
       {
         "ray-x/lsp_signature.nvim",
@@ -157,119 +157,119 @@ default_theme = {
 				"regex",
 				"jsdoc",
 				"go"
-    },},
-    ["nvim-lsp-installer"] = {
-      ensure_installed = {
-        "sumneko_lua",
-        "powershell_es" },
-    },
-    packer = {
-      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
-    },
-  },
-
-  -- LuaSnip Options
-  luasnip = {
-    -- Add paths for including more VS Code style snippets in luasnip
-    vscode_snippet_paths = {},
-    -- Extend filetypes
-    filetype_extend = {
-      javascript = { "javascriptreact" },
-    },
-  },
-
-  -- Modify which-key registration
-  ["which-key"] = {
-    -- Add bindings
-    register_mappings = {
-      -- first key is the mode, n == normal mode
-      n = {
-        -- second key is the prefix, <leader> prefixes
-        ["<leader>"] = {
-          -- which-key registration table for normal mode, leader prefix
-          -- ["N"] = { "<cmd>tabnew<cr>", "New Buffer" },
+      },},
+      ["nvim-lsp-installer"] = {
+        ensure_installed = {
+          "sumneko_lua",
+          "powershell_es" },
+        },
+        packer = {
+          compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
         },
       },
-    },
-  },
 
-  -- CMP Source Priorities
-  -- modify here the priorities of default cmp sources
-  -- higher value == higher priority
-  -- The value can also be set to a boolean for disabling default sources:
-  -- false == disabled
-  -- true == 1000
-  cmp = {
-    source_priority = {
-      nvim_lsp = 1000,
-      luasnip = 750,
-      buffer = 500,
-      path = 250,
-    },
-  },
+      -- LuaSnip Options
+      luasnip = {
+        -- Add paths for including more VS Code style snippets in luasnip
+        vscode_snippet_paths = {},
+        -- Extend filetypes
+        filetype_extend = {
+          javascript = { "javascriptreact" },
+        },
+      },
 
-  -- Extend LSP configuration
-  lsp = {
-    -- enable servers that you already have installed without lsp-installer
-    servers = {
-         "sumneko_lua",
-        "powershell_es"
-    },
-    -- add to the server on_attach function
-    -- on_attach = function(client, bufnr)
-    -- end,
+      -- Modify which-key registration
+      ["which-key"] = {
+        -- Add bindings
+        register_mappings = {
+          -- first key is the mode, n == normal mode
+          n = {
+            -- second key is the prefix, <leader> prefixes
+            ["<leader>"] = {
+              -- which-key registration table for normal mode, leader prefix
+              -- ["N"] = { "<cmd>tabnew<cr>", "New Buffer" },
+            },
+          },
+        },
+      },
 
-    -- override the lsp installer server-registration function
-    -- server_registration = function(server, opts)
-    --   require("lspconfig")[server.name].setup(opts)
-    -- end
+      -- CMP Source Priorities
+      -- modify here the priorities of default cmp sources
+      -- higher value == higher priority
+      -- The value can also be set to a boolean for disabling default sources:
+      -- false == disabled
+      -- true == 1000
+      cmp = {
+        source_priority = {
+          nvim_lsp = 1000,
+          luasnip = 750,
+          buffer = 500,
+          path = 250,
+        },
+      },
 
-    -- Add overrides for LSP server settings, the keys are the name of the server
-    ["server-settings"] = {
-      -- example for addings schemas to yamlls
-      -- yamlls = {
-      --   settings = {
-      --     yaml = {
-      --       schemas = {
-      --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
-      --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-      --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-      --       },
-      --     },
-      --   },
-      -- },
-    },
-  },
+      -- Extend LSP configuration
+      lsp = {
+        -- enable servers that you already have installed without lsp-installer
+        servers = {
+          "sumneko_lua",
+          "powershell_es"
+        },
+        -- add to the server on_attach function
+        -- on_attach = function(client, bufnr)
+          -- end,
 
-  -- Diagnostics configuration (for vim.diagnostics.config({}))
-  diagnostics = {
-    virtual_text = true,
-    underline = true,
-  },
+          -- override the lsp installer server-registration function
+          -- server_registration = function(server, opts)
+            --   require("lspconfig")[server.name].setup(opts)
+            -- end
 
-  -- This function is run last
-  -- good place to configure mappings and vim options
-  polish = function()
-    -- Set key bindings
-    vim.keymap.set("n", "<C-s>", ":w!<CR>")
+            -- Add overrides for LSP server settings, the keys are the name of the server
+            ["server-settings"] = {
+              -- example for addings schemas to yamlls
+              -- yamlls = {
+                --   settings = {
+                  --     yaml = {
+                    --       schemas = {
+                      --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
+                      --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+                      --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
+                      --       },
+                      --     },
+                      --   },
+                      -- },
+                    },
+                  },
 
-    -- Set autocommands
-    vim.api.nvim_create_augroup("packer_conf", { clear = true })
-    vim.api.nvim_create_autocmd("BufWritePost", {
-      desc = "Sync packer after modifying plugins.lua",
-      group = "packer_conf",
-      pattern = "plugins.lua",
-      command = "source <afile> | PackerSync",
-    })
+                  -- Diagnostics configuration (for vim.diagnostics.config({}))
+                  diagnostics = {
+                    virtual_text = true,
+                    underline = true,
+                  },
 
-    -- Configure Shell for Windows.
-    vim.cmd([[
-    let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-    let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-    let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-    set shellquote= shellxquote=
-    ]])
-  end,
-}
+                  -- This function is run last
+                  -- good place to configure mappings and vim options
+                  polish = function()
+                    -- Set key bindings
+                    vim.keymap.set("n", "<C-s>", ":w!<CR>")
 
-return config
+                    -- Set autocommands
+                    vim.api.nvim_create_augroup("packer_conf", { clear = true })
+                    vim.api.nvim_create_autocmd("BufWritePost", {
+                      desc = "Sync packer after modifying plugins.lua",
+                      group = "packer_conf",
+                      pattern = "plugins.lua",
+                      command = "source <afile> | PackerSync",
+                    })
+
+                    -- Configure Shell for Windows.
+                    vim.cmd([[
+                    let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+                    let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+                    let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+                    set shellquote= shellxquote=
+                    ]])
+                  end,
+                }
+
+                return config

@@ -10,6 +10,8 @@ local config = {
     pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
     skip_prompts = false, -- skip prompts about breaking changes
     show_changelog = true, -- show the changelog after performing an update
+    auto_reload = false, -- automatically reload and sync packer after a successful update
+    auto_quit = false, -- automatically quit the current session after a successful update
     -- remotes = { -- easily add new remotes to track
     --   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
     --   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
@@ -38,6 +40,10 @@ local config = {
   options = {
     opt = {
 			shell = vim.fn.has("win32") == 1 and "pwsh.exe" or vim.o.shell,
+      number = true, -- sets vim.opt.number
+      spell = false, -- sets vim.opt.spell
+      signcolumn = "auto", -- sets vim.opt.signcolumn to auto
+      wrap = false, -- sets vim.opt.wrap
       -- shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',
       -- shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode',
       -- shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode',
@@ -50,6 +56,13 @@ local config = {
 				syntax = "markdown",
 				ext = ".md",
 			},
+      autoformat_enabled = true, -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
+      cmp_enabled = true, -- enable completion at start
+      autopairs_enabled = true, -- enable autopairs at start
+      diagnostics_enabled = true, -- enable diagnostics at start
+      status_diagnostics_enabled = true, -- enable diagnostics in statusline
+      icons_enabled = true, -- disable icons in the UI (disable if no nerd font is available, requires :PackerSync after changing)
+      ui_notifications_enabled = true, -- disable notifications when toggling UI elements
 		},
     R_path = "$HOME\\scoop\\apps\\r-release\\current\\bin;$HOME\\scoop\\apps\\rtools\\current",
     R_syntax_fun_pattern = 1,
@@ -59,13 +72,43 @@ local config = {
   },
 },
 
+  -- Set dashboard header
+  header = {
+    " █████  ███████ ████████ ██████   ██████",
+    "██   ██ ██         ██    ██   ██ ██    ██",
+    "███████ ███████    ██    ██████  ██    ██",
+    "██   ██      ██    ██    ██   ██ ██    ██",
+    "██   ██ ███████    ██    ██   ██  ██████",
+    " ",
+    "    ███    ██ ██    ██ ██ ███    ███",
+    "    ████   ██ ██    ██ ██ ████  ████",
+    "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
+    "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
+    "    ██   ████   ████   ██ ██      ██",
+  },
+
 -- Default theme configuration
 default_theme = {
   diagnostics_style = { italic = true },
   -- Modify the color table
   colors = {
     fg = "#abb2bf",
+    bg = "#1e222a",
   },
+  highlights = function(hl) -- or a function that returns a new table of colors to set
+    local C = require "default_theme.colors"
+
+    hl.Normal = { fg = C.fg, bg = C.bg }
+
+    -- New approach instead of diagnostic_style
+    hl.DiagnosticError.italic = true
+    hl.DiagnosticHint.italic = true
+    hl.DiagnosticInfo.italic = true
+    hl.DiagnosticWarn.italic = true
+
+    return hl
+  end,
+  -- enable or disable highlighting for extra plugins
   plugins = { -- enable or disable extra plugin highlighting
   aerial = true,
   beacon = false,
@@ -87,12 +130,18 @@ default_theme = {
 },
   },
 
-  -- Disable AstroNvim ui features
-  ui = {
-    nui_input = true,
-    telescope_select = true,
+--   -- Disable AstroNvim ui features
+--   ui = {
+--     nui_input = true,
+--     telescope_select = true,
+--   },
+-- 
+  
+  -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
+  diagnostics = {
+    virtual_text = true,
+    underline = true,
   },
-
   -- Configure plugins
   plugins = {
     -- Add plugins, the packer syntax without the "use"

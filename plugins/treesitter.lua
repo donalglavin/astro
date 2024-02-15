@@ -5,7 +5,10 @@ return {
     opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
       -- `community.lua` ensures parsers via their language packs
       "bash", -- noice
-      "fennel",
+      "javascript",
+      "html",
+      "css",
+      "dockerfile",
       "git_config",
       "gitignore",
       "graphql",
@@ -17,7 +20,6 @@ return {
       "markdown_inline",
       "org",
       "python",
-      "r",
       "regex",
       "sql",
       "yaml", -- yaml pack includes agressive prettierd

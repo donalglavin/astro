@@ -11,6 +11,7 @@ return {
         "marksman", -- Markdown structure (also in markdown pack)
         "lua_ls",
         "pyright",
+        "powershell_es",
         -- "yamlls",
       })
     end,
